@@ -11,17 +11,51 @@ class App extends Component
   constructor(props){
     super(props);
     this.state={
-      tasks: JSON.parse(localStorage.getItem('TASKS')),
-      input:""    
+      task:'',
+      index:'',
+      isComplete:'',
+      deleteTask:'',
+      inputValue:""    
     }
     this.toggleTaskStatus=this.toggleTaskStatus.bind(this);
     this.addTaskClick=this.addTaskClick.bind(this);
     this.deleteTask=this.deleteTask.bind(this);
+    this.addTask=this.addTask.bind(this);
   }
+  handleToggle()
+  {
+    const{isComplete}=this.props;
+    if(isComplete===true)
+      isComplete=false;
+    else
+      isComplete=true;
+    this.setState({isComplete:isComplete});
+  }
+  handleDelete()
+  {
+
+  }
+  addTask(task) {
+      let newTask = {
+        task,
+        isComplete: false,
+      };
+      let parentDiv = document.getElementById('addTask').parentElement;
+      if(task === '') {
+        parentDiv.classList.add('has-error');
+      } else {
+        parentDiv.classList.remove('has-error');
+        this.tasks.push(newTask);
+        this.loadTasks();
+      }
+}
   render()
   {
     return(
-    <div styles='container'>Test</div>
+    <div styles='container'>
+    <TaskForm onSubmit={this.addTask} />
+    </div>
+    
     );
   }
   
